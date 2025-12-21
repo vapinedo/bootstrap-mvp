@@ -13,12 +13,16 @@ export class UserService {
   return this.prisma.user.findUnique({ where: { id } });
   }
 
-  create(payload: { username?: string; email?: string; password?: string }) {
-    // map payload to your schema fields; here we assume `email` and `password` exist in schema
-  return this.prisma.user.create({ data: payload as any });
+  async create(payload: { username?: string; email?: string; password?: string }) {
+    // Se asume que el password ya viene hasheado
+    return this.prisma.user.create({ data: payload as any });
   }
 
   remove(id: number) {
   return this.prisma.user.delete({ where: { id } });
   }
+  
+    async findByEmail(email: string) {
+      return this.prisma.user.findUnique({ where: { email } });
+    }
 }
