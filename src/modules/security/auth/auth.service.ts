@@ -1,13 +1,18 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
+import { RoleService } from '../rol/role.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { ROLE_NAMES } from '../../../common/constants/roles';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly roleService: RoleService,
+    private readonly prisma: PrismaService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -35,6 +40,17 @@ export class AuthService {
       password: hashedPassword,
       username: body.username,
     });
+    // Crear roles base si no existen
+    const roles: Record<string, any> = {};
+    for (const name of ROLE_NAMES) {
+      let role = await this.prisma.role.findUnique({ where: { name } });
+      if (!role) {
+        role = await this.prisma.role.create({ data: { name } });
+      }
+      roles[name] = role;
+    }
+    // Asignar solo el rol 'user' al nuevo usuario
+    await this.prisma.userRole.create({ data: { userId: user.id, roleId: roles['user'].id } });
     // Exclude password from returned user
     const { password, ...result } = user;
     return result;

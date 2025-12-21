@@ -13,6 +13,8 @@ import { PermissionController } from './permision/permission.controller';
 import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { TestRbacController } from './test-rbac.controller';
+import { RolesGuard } from '../../common/guards/roles.guard';
 
 @Module({
   imports: [
@@ -27,6 +29,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
     RoleController,
     PermissionController,
     AuthController,
+    TestRbacController,
   ],
   providers: [
     UserService,
@@ -34,6 +37,7 @@ import { JwtStrategy } from './auth/jwt.strategy';
     PermissionService,
     AuthService,
     JwtStrategy,
+    RolesGuard,
   ],
   exports: [UserService, RoleService, PermissionService, AuthService],
 })
