@@ -1,33 +1,23 @@
 import { Injectable } from '@nestjs/common';
-
-export type Role = { id: number; name: string };
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class RoleService {
-  private roles: Role[] = [
-    { id: 1, name: 'admin' },
-    { id: 2, name: 'user' },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Role[] {
-    return this.roles;
+  findAll() {
+    return this.prisma.role.findMany();
   }
 
-  findOne(id: number): Role | null {
-    return this.roles.find((r) => r.id === id) ?? null;
+  findOne(id: number) {
+    return this.prisma.role.findUnique({ where: { id } });
   }
 
-  create(payload: Partial<Role>): Role {
-    const nextId = this.roles.length + 1;
-    const role: Role = { id: nextId, name: payload.name ?? `role${nextId}` };
-    this.roles.push(role);
-    return role;
+  create(payload: { name: string }) {
+    return this.prisma.role.create({ data: payload });
   }
 
-  remove(id: number): boolean {
-    const idx = this.roles.findIndex((r) => r.id === id);
-    if (idx === -1) return false;
-    this.roles.splice(idx, 1);
-    return true;
+  remove(id: number) {
+    return this.prisma.role.delete({ where: { id } });
   }
 }

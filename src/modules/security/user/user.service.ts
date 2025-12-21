@@ -1,33 +1,24 @@
 import { Injectable } from '@nestjs/common';
-
-export type User = { id: number; username: string };
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class UserService {
-  private users: User[] = [
-    { id: 1, username: 'alice' },
-    { id: 2, username: 'bob' },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): User[] {
-    return this.users;
+  findAll() {
+  return this.prisma.user.findMany();
   }
 
-  findOne(id: number): User | null {
-    return this.users.find((u) => u.id === id) ?? null;
+  findOne(id: number) {
+  return this.prisma.user.findUnique({ where: { id } });
   }
 
-  create(payload: Partial<User>): User {
-    const nextId = this.users.length + 1;
-    const user: User = { id: nextId, username: payload.username ?? `user${nextId}` };
-    this.users.push(user);
-    return user;
+  create(payload: { username?: string; email?: string; password?: string }) {
+    // map payload to your schema fields; here we assume `email` and `password` exist in schema
+  return this.prisma.user.create({ data: payload as any });
   }
 
-  remove(id: number): boolean {
-    const idx = this.users.findIndex((u) => u.id === id);
-    if (idx === -1) return false;
-    this.users.splice(idx, 1);
-    return true;
+  remove(id: number) {
+  return this.prisma.user.delete({ where: { id } });
   }
 }

@@ -1,28 +1,33 @@
 import { Controller, Get, Param, Post, Body, Delete, ParseIntPipe } from '@nestjs/common';
 import { PermissionService } from './permission.service';
-import type { Permission } from './permission.service';
+import type { Permission } from '@prisma/client';
 
 @Controller('security/permissions')
 export class PermissionController {
   constructor(private readonly permissionService: PermissionService) {}
 
   @Get()
-  getAll(): Permission[] {
-    return this.permissionService.findAll();
+  async getAll(): Promise<Permission[]> {
+    return await this.permissionService.findAll();
   }
 
   @Get(':id')
-  getOne(@Param('id', ParseIntPipe) id: number): Permission | null {
-    return this.permissionService.findOne(id);
+  async getOne(@Param('id', ParseIntPipe) id: number): Promise<Permission | null> {
+    return await this.permissionService.findOne(id);
   }
 
   @Post()
-  create(@Body() body: Partial<Permission>): Permission {
-    return this.permissionService.create(body);
+  async create(@Body() body: Partial<Permission>): Promise<Permission> {
+    return await this.permissionService.create(body as any);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number): { deleted: boolean } {
-    return { deleted: this.permissionService.remove(id) };
+  async remove(@Param('id', ParseIntPipe) id: number): Promise<{ deleted: boolean }> {
+    try {
+      await this.permissionService.remove(id);
+      return { deleted: true };
+    } catch {
+      return { deleted: false };
+    }
   }
 }

@@ -1,33 +1,23 @@
 import { Injectable } from '@nestjs/common';
-
-export type Permission = { id: number; name: string };
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class PermissionService {
-  private permissions: Permission[] = [
-    { id: 1, name: 'read' },
-    { id: 2, name: 'write' },
-  ];
+  constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Permission[] {
-    return this.permissions;
+  findAll() {
+    return this.prisma.permission.findMany();
   }
 
-  findOne(id: number): Permission | null {
-    return this.permissions.find((p) => p.id === id) ?? null;
+  findOne(id: number) {
+    return this.prisma.permission.findUnique({ where: { id } });
   }
 
-  create(payload: Partial<Permission>): Permission {
-    const nextId = this.permissions.length + 1;
-    const perm: Permission = { id: nextId, name: payload.name ?? `perm${nextId}` };
-    this.permissions.push(perm);
-    return perm;
+  create(payload: { name: string }) {
+    return this.prisma.permission.create({ data: payload });
   }
 
-  remove(id: number): boolean {
-    const idx = this.permissions.findIndex((p) => p.id === id);
-    if (idx === -1) return false;
-    this.permissions.splice(idx, 1);
-    return true;
+  remove(id: number) {
+    return this.prisma.permission.delete({ where: { id } });
   }
 }
