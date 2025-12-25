@@ -1,5 +1,5 @@
 
-# Arquitectura del Backend
+## Arquitectura del Backend
 
 Este documento describe la arquitectura, tecnologías y scaffolding actual del backend del proyecto RBAC Bootstrap MVP.
 

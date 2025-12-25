@@ -22,9 +22,7 @@ apps/frontend/
 │   ├── components/            # Componentes reutilizables (vacío actualmente)
 │   ├── common/
 │   │   └── constants.api.js   # Endpoints centralizados
-│   ├── hooks/
-│   │   ├── useLoginApi.js     # Hook para login
-│   │   └── useLogoutApi.js    # Hook para logout
+│   ├── hooks/                 # (puede eliminarse si ya no se usan hooks personalizados)
 │   └── pages/
 │       ├── LoginPage.jsx      # Página de login
 │       └── DashboardPage.jsx  # Página de dashboard con logout
@@ -50,7 +48,7 @@ apps/frontend/
 - El login está integrado con el backend: el formulario envía las credenciales al endpoint `/auth/login` y guarda el token JWT en `localStorage` tras autenticación exitosa.
 - Tras login exitoso, el usuario es redirigido automáticamente al dashboard.
 - El dashboard incluye un botón para cerrar sesión, que llama al endpoint `/auth/logout` y elimina el token local, redirigiendo al login.
-- Los hooks personalizados (`useLoginApi`, `useLogoutApi`) centralizan la lógica de autenticación y sesión.
+- Login y logout gestionados con mutaciones de TanStack Query (`@tanstack/react-query`).
 - Los endpoints de la API están centralizados en `src/common/constants.api.js` y la URL base se configura en `.env`.
 - La navegación entre páginas se gestiona con `react-router-dom`.
 - La carpeta `components` sigue vacía y no existen componentes reutilizables basados en Tabler React.
