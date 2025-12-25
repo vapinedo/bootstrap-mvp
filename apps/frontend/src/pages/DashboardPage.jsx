@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { API_ENDPOINTS } from '../common/constants.api.js';
 import { useNavigate } from 'react-router-dom';
+import { Button, Card } from 'tabler-react';
 
 export function DashboardPage() {
   const navigate = useNavigate();
