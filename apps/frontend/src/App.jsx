@@ -1,14 +1,16 @@
+
 import 'tabler-react/dist/Tabler.css';
+import { Routes, Route } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage.jsx';
+import { DashboardPage } from './pages/DashboardPage.jsx';
 
 function App() {
-  // Aquí puedes manejar la lógica de login real
-  const handleLogin = async ({ email, password }) => {
-    // Lógica de autenticación (ejemplo: llamada a API)
-    alert(`Email: ${email}\nPassword: ${password}`);
-  };
-
-  return <LoginPage onLogin={handleLogin} />;
+  return (
+    <Routes>
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
+    </Routes>
+  );
 }
 
 export default App;

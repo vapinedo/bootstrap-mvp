@@ -1,23 +1,19 @@
 import { useState } from 'react';
 import { Card, Form, Button } from 'tabler-react';
+import { useLoginApi } from '../hooks/useLoginApi.js';
+import { useNavigate } from 'react-router-dom';
 
-export function LoginPage({ onLogin }) {
+export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { login, loading, error, token } = useLoginApi();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      // Aquí deberías llamar a tu API de login
-      await onLogin?.({ email, password });
-    } catch (err) {
-      setError('Credenciales inválidas');
-    } finally {
-      setLoading(false);
+    const result = await login(email, password);
+    if (result) {
+      navigate('/dashboard');
     }
   };
 
@@ -39,6 +35,7 @@ export function LoginPage({ onLogin }) {
                 required
                 className="form-control"
                 style={{ width: '100%' }}
+                autoComplete="new-email"
               />
             </div>
             <div style={{ marginBottom: 16 }}>
@@ -53,6 +50,7 @@ export function LoginPage({ onLogin }) {
                 required
                 className="form-control"
                 style={{ width: '100%' }}
+                autoComplete="new-password"
               />
             </div>
             {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
