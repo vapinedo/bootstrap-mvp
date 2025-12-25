@@ -4,8 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'tabler-react';
 import DashboardNavbar from '../components/DashboardNavbar.jsx';
 import DashboardSidebar from '../components/DashboardSidebar.jsx';
+import { useState } from 'react';
 
 export function DashboardPage() {
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const logoutMutation = useMutation({
     mutationFn: async () => {
@@ -31,13 +33,13 @@ export function DashboardPage() {
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', background: '#f8f9fa' }}>
-      {/* Sidebar oscuro */}
-      <div style={{ width: 240, background: '#212529', color: '#fff', borderRight: '1px solid #1a1d1f', minHeight: '100vh' }}>
-        <DashboardSidebar />
+      {/* Sidebar oscuro, colapsable */}
+      <div style={{ width: sidebarOpen ? 240 : 64, transition: 'width 0.2s', background: '#212529', color: '#fff', borderRight: '1px solid #1a1d1f', minHeight: '100vh', overflow: 'hidden' }}>
+        <DashboardSidebar collapsed={!sidebarOpen} />
       </div>
       {/* Main content */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <DashboardNavbar />
+        <DashboardNavbar onToggleSidebar={() => setSidebarOpen((v) => !v)} sidebarOpen={sidebarOpen} />
         <div style={{ padding: '32px', flex: 1 }}>
           {/* Grid de widgets */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
