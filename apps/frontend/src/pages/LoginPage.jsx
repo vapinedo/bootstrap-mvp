@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Card, Form, Button } from 'tabler-react';
 
-function Login({ onLogin }) {
+export function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -65,5 +65,3 @@ function Login({ onLogin }) {
     </div>
   );
 }
-
-export default Login;

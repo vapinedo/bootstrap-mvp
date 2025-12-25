@@ -1,5 +1,5 @@
 import 'tabler-react/dist/Tabler.css';
-import Login from './components/Login.jsx';
+import { LoginPage } from './pages/LoginPage.jsx';
 
 function App() {
   // Aquí puedes manejar la lógica de login real
@@ -8,7 +8,7 @@ function App() {
     alert(`Email: ${email}\nPassword: ${password}`);
   };
 
-  return <Login onLogin={handleLogin} />;
+  return <LoginPage onLogin={handleLogin} />;
 }
 
 export default App;
