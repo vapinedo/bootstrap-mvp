@@ -1,20 +1,38 @@
 import { useState } from 'react';
 import { Card, Form, Button } from 'tabler-react';
-import { useLoginApi } from '../hooks/useLoginApi.js';
+import { useMutation } from '@tanstack/react-query';
+import { API_ENDPOINTS } from '../common/constants.api.js';
 import { useNavigate } from 'react-router-dom';
 
 export function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login, loading, error, token } = useLoginApi();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const result = await login(email, password);
-    if (result) {
+  const loginMutation = useMutation({
+    mutationFn: async ({ email, password }) => {
+      const res = await fetch(API_ENDPOINTS.LOGIN, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) throw new Error('Credenciales inválidas');
+      const data = await res.json();
+      if (data.access_token) {
+        localStorage.setItem('token', data.access_token);
+        return data.access_token;
+      } else {
+        throw new Error('Respuesta inválida del servidor');
+      }
+    },
+    onSuccess: () => {
       navigate('/dashboard');
-    }
+    },
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    loginMutation.mutate({ email, password });
   };
 
   return (
@@ -53,8 +71,12 @@ export function LoginPage() {
                 autoComplete="new-password"
               />
             </div>
-            {error && <div style={{ color: 'red', marginBottom: 8 }}>{error}</div>}
-            <Button color="primary" type="submit" loading={loading} block>
+            {loginMutation.isError && (
+              <div style={{ color: 'red', marginBottom: 8 }}>
+                {loginMutation.error.message}
+              </div>
+            )}
+            <Button color="primary" type="submit" loading={loginMutation.isLoading} block>
               Ingresar
             </Button>
           </Form>
