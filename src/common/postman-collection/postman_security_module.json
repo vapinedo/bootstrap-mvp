@@ -109,4 +109,48 @@
       }
     }
   ]
+    ,
+    {
+      "name": "Listar roles de un usuario",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}" }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/security/users/1/roles",
+          "host": ["{{baseURL}}"],
+          "path": ["security", "users", "1", "roles"]
+        }
+      }
+    },
+    {
+      "name": "Asignar rol a usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}" }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/security/users/1/roles/2",
+          "host": ["{{baseURL}}"],
+          "path": ["security", "users", "1", "roles", "2"]
+        }
+      }
+    },
+    {
+      "name": "Quitar rol a usuario",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{jwt}}" }
+        ],
+        "url": {
+          "raw": "{{baseURL}}/security/users/1/roles/2",
+          "host": ["{{baseURL}}"],
+          "path": ["security", "users", "1", "roles", "2"]
+        }
+      }
+    }
+  ]
 }

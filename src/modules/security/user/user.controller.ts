@@ -1,4 +1,7 @@
 import { Controller, Get, Param, Post, Body, Delete, ParseIntPipe } from '@nestjs/common';
+import { RolesGuard } from '../../../common/guards/roles.guard';
+import { UseGuards } from '@nestjs/common';
+import { Roles } from '../test-rbac.controller';
 import { UserService } from './user.service';
 import type { User } from '@prisma/client';
 
@@ -29,5 +32,34 @@ export class UserController {
     } catch {
       return { deleted: false };
     }
+  }
+  // Listar roles de un usuario
+  @Get(':id/roles')
+  @UseGuards(RolesGuard)
+  @Roles('admin', 'super-admin')
+  async getRoles(@Param('id', ParseIntPipe) id: number) {
+    return await this.userService.getRoles(id);
+  }
+
+  // Asignar rol a usuario
+  @Post(':id/roles/:roleId')
+  @UseGuards(RolesGuard)
+  @Roles('admin', 'super-admin')
+  async addRole(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('roleId', ParseIntPipe) roleId: number
+  ) {
+    return await this.userService.addRole(id, roleId);
+  }
+
+  // Quitar rol a usuario
+  @Delete(':id/roles/:roleId')
+  @UseGuards(RolesGuard)
+  @Roles('admin', 'super-admin')
+  async removeRole(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('roleId', ParseIntPipe) roleId: number
+  ) {
+    return await this.userService.removeRole(id, roleId);
   }
 }
