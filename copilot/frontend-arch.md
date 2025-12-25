@@ -5,10 +5,12 @@ Este documento describe la arquitectura, tecnologías y scaffolding actual del f
 ## Tecnologías Usadas
 - **Framework:** React 18
 - **Build Tool:** Vite 7
-- **Lenguaje:** JavaScript (con soporte para JSX)
-- **UI Kit:** Tabler React
-- **Linting:** ESLint con plugins para React Hooks y React Refresh
-- **Plugin de Vite:** @vitejs/plugin-react para Fast Refresh
+- **Lenguaje:** JavaScript (JSX)
+- **UI Kit:** Tabler React (componentes básicos)
+- **Iconos:** @tabler/icons-react
+- **Gestión de estado y datos:** TanStack Query
+- **Linting:** ESLint (React Hooks, React Refresh)
+- **Plugin de Vite:** @vitejs/plugin-react
 
 ## Estructura de Carpetas
 ```
@@ -19,13 +21,15 @@ apps/frontend/
 │   ├── index.css              # Estilos globales
 │   ├── App.css                # Estilos del componente App
 │   ├── assets/                # Imágenes y SVG
-│   ├── components/            # Componentes reutilizables (vacío actualmente)
+│   ├── components/
+│   │   ├── DashboardNavbar.jsx    # Barra superior con botón para abrir/cerrar sidebar
+│   │   └── DashboardSidebar.jsx   # Sidebar colapsable con iconos Tabler
 │   ├── common/
 │   │   └── constants.api.js   # Endpoints centralizados
 │   ├── hooks/                 # (puede eliminarse si ya no se usan hooks personalizados)
 │   └── pages/
-│       ├── LoginPage.jsx      # Página de login
-│       └── DashboardPage.jsx  # Página de dashboard con logout
+│       ├── LoginPage.jsx      # Página de login (TanStack Query)
+│       └── DashboardPage.jsx  # Dashboard con layout tipo Tabler, widgets y sidebar
 ├── public/
 │   └── vite.svg               # Favicon
 ├── index.html                 # HTML principal
@@ -36,8 +40,16 @@ apps/frontend/
 └── README.md                  # Documentación
 ```
 
+## Características del Dashboard
+- Layout tipo Tabler: sidebar oscuro colapsable, navbar superior, área principal con grid de widgets.
+- Sidebar con iconos Tabler y soporte para abrir/cerrar desde la navbar.
+- Widgets y tarjetas de métricas usando componentes Card y Button de Tabler React.
+- Integración de TanStack Query para login/logout y gestión de datos.
+- Estilos globales importados desde Tabler React.
+- Estructura modular y fácil de extender.
+
 ## Scripts Útiles
-- `pnpm dev:frontend`: Inicia el frontend en modo desarrollo
+- `pnpm dev --filter frontend`: Inicia el frontend en modo desarrollo
 - `pnpm build:frontend`: Compila el frontend
 - `pnpm lint:frontend`: Ejecuta ESLint
 
