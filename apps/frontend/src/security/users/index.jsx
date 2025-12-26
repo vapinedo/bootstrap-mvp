@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UsersWidget } from './UsersWidget.jsx';
-import { UsersList } from './UsersList.jsx';
+import { UserAdminPage } from './UserAdminPage.jsx';
 import DashboardSidebar from '../../components/DashboardSidebar.jsx';
 import DashboardNavbar from '../../components/DashboardNavbar.jsx';
 
@@ -16,7 +16,7 @@ export default function UsersPage() {
         <div style={{ padding: '32px', flex: 1 }}>
           <UsersWidget />
           <div style={{ marginTop: 32 }}>
-            <UsersList />
+            <UserAdminPage />
           </div>
         </div>
       </div>

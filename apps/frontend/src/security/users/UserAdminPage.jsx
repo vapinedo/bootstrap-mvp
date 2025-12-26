@@ -2,7 +2,7 @@ import { useUsers, useDeleteUser, useCreateUser } from '../user.hooks';
 import { Card, Table, Button } from 'tabler-react';
 import { useState } from 'react';
 
-export function UsersList() {
+export function UserAdminPage() {
   const { data: users, isLoading, isError, error } = useUsers();
   const deleteUser = useDeleteUser();
   const editUser = useCreateUser();
