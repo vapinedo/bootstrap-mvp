@@ -3,7 +3,6 @@ import { API_ENDPOINTS } from '../common/constants.api.js';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'tabler-react';
 import { UsersWidget } from '../components/UsersWidget.jsx';
-import { UsersList } from '../components/UsersList.jsx';
 import DashboardNavbar from '../components/DashboardNavbar.jsx';
 import DashboardSidebar from '../components/DashboardSidebar.jsx';
 import { useState } from 'react';
@@ -79,10 +78,6 @@ export function DashboardPage() {
               </Card.Body>
             </Card>
           </div>
-        </div>
-        {/* Listado de usuarios */}
-        <div style={{ marginTop: 32 }}>
-          <UsersList />
         </div>
       </div>
     </div>
