@@ -2,6 +2,8 @@ import { useMutation } from '@tanstack/react-query';
 import { API_ENDPOINTS } from '../common/constants.api.js';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card } from 'tabler-react';
+import { UsersWidget } from '../components/UsersWidget.jsx';
+import { UsersList } from '../components/UsersList.jsx';
 import DashboardNavbar from '../components/DashboardNavbar.jsx';
 import DashboardSidebar from '../components/DashboardSidebar.jsx';
 import { useState } from 'react';
@@ -58,14 +60,8 @@ export function DashboardPage() {
                 )}
               </Card.Body>
             </Card>
-            {/* Tarjeta de métrica ejemplo */}
-            <Card>
-              <Card.Body>
-                <h3 style={{ marginBottom: 4 }}>Total usuarios</h3>
-                <div style={{ fontSize: 28, fontWeight: 700 }}>75,782</div>
-                <div style={{ color: '#28a745', fontWeight: 500 }}>+2% este mes</div>
-              </Card.Body>
-            </Card>
+            {/* Widget de usuarios reales */}
+            <UsersWidget />
             {/* Tarjeta de métrica ejemplo */}
             <Card>
               <Card.Body>
@@ -83,6 +79,10 @@ export function DashboardPage() {
               </Card.Body>
             </Card>
           </div>
+        </div>
+        {/* Listado de usuarios */}
+        <div style={{ marginTop: 32 }}>
+          <UsersList />
         </div>
       </div>
     </div>
