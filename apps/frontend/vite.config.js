@@ -21,6 +21,7 @@ export default defineConfig({
       '@icons': path.resolve(__dirname, 'src/icons'),
       '@pages': path.resolve(__dirname, 'src/pages'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
+      '@theme': path.resolve(__dirname, 'src/theme'),
       '@modules': path.resolve(__dirname, 'src/modules'),
       '@context': path.resolve(__dirname, 'src/context'),
       '@components': path.resolve(__dirname, 'src/components'),

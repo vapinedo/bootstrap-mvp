@@ -1,12 +1,12 @@
 
-import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSidebar } from "../context/SidebarContext";
-import ThemeToggleButton from "../components/common/ThemeToggleButton";
-import NotificationDropdown from "../components/header/NotificationDropdown";
-import UserDropdown from "../components/header/UserDropdown";
+import { useEffect, useRef, useState } from "react";
+import { useSidebar } from "@theme/context/SidebarContext";
+import { UserDropdown } from "@theme/components/header/UserDropdown";
+import { ThemeToggleButton } from "@theme/components/common/ThemeToggleButton";
+import { NotificationDropdown } from "@theme/components/header/NotificationDropdown";
 
-export default function AppHeader() {
+export const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
   const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Dropdown({ isOpen, onClose, children, className = "" }) {
+export const Dropdown = ({ isOpen, onClose, children, className = "" }) => {
   const dropdownRef = useRef(null);
 
   useEffect(() => {

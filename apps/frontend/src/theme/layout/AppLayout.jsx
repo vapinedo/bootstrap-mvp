@@ -1,8 +1,8 @@
-import { SidebarProvider, useSidebar } from "../context/SidebarContext";
-import AppHeader from "./AppHeader";
-import Backdrop from "./Backdrop";
-import AppSidebar from "./AppSidebar";
 import { Outlet } from "react-router-dom";
+import { Backdrop } from "@theme/layout/Backdrop";
+import { AppHeader } from "@theme/layout/AppHeader";
+import { AppSidebar } from "@theme/layout/AppSidebar";
+import { SidebarProvider, useSidebar } from "../context/SidebarContext";
 
 function LayoutContent() {
   const { isExpanded, isHovered, isMobileOpen } = useSidebar();
@@ -27,7 +27,7 @@ function LayoutContent() {
   );
 }
 
-export default function AppLayout() {
+export const AppLayout = () => {
   return (
     <SidebarProvider>
       <LayoutContent />

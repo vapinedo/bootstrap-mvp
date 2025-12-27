@@ -71,7 +71,7 @@ const othersItems = [
   },
 ];
 
-export default function AppSidebar() {
+export const AppSidebar = () => {
   const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleSidebar, toggleMobileSidebar } = useSidebar();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
