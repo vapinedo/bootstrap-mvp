@@ -1,7 +1,7 @@
 
+import AppLayout from '@/layout/AppLayout';
 import { Routes, Route, Outlet } from 'react-router-dom';
 import { DashboardPage } from '@modules/dashboard/pages/DashboardPage';
-import AppLayout from '@modules/layout/AppLayout';
 
 export const DashboardRouter = () => {
   return (
