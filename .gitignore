@@ -17,6 +17,9 @@ pnpm-debug.log*
 yarn-debug.log*
 lerna-debug.log*
 
+/admin-theme
+
+
 # OS
 .DS_Store
 
