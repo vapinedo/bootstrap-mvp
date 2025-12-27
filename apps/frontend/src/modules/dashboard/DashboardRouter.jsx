@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import { DashboardPage } from './pages/DashboardPage';
+import { DashboardPage } from '@modules/dashboard/pages/DashboardPage';
 
 export const DashboardRouter = () => {
   return (

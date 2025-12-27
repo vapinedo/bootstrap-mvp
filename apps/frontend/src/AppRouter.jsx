@@ -1,6 +1,6 @@
-import { NotFound } from './pages/NotFound.jsx';
+import { NotFound } from '@pages/NotFound.jsx';
 import { Routes, Route } from 'react-router-dom';
-import { DashboardRouter } from './modules/dashboard/DashboardRouter';
+import { DashboardRouter } from '@modules/dashboard/DashboardRouter';
 
 export const AppRouter = () => {
   return (
