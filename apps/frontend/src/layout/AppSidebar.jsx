@@ -1,114 +1,318 @@
 
-import { useState } from "react";
-import { GridIcon, UserCircleIcon } from '@icons';
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSidebar } from "../context/SidebarContext";
-
-// Puedes reemplazar estos SVG por tus propios íconos o importarlos
-const ProfileIcon = () => <span className="inline-block w-5 h-5 bg-gray-400 rounded" />;
-const SettingsIcon = () => <span className="inline-block w-5 h-5 bg-gray-400 rounded" />;
-const ChevronDownIcon = ({ open }) => (
-  <span className={`inline-block w-4 h-4 ml-auto transition-transform ${open ? "rotate-180" : ""}`}>▼</span>
-);
+import { GridIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "../icons";
 
 const navItems = [
   {
-    name: "Dashboard",
     icon: <GridIcon />,
+    name: "Dashboard",
+    subItems: [{ name: "Ecommerce", path: "/" }],
+  },
+  {
+    icon: <CalenderIcon />,
+    name: "Calendar",
+    path: "/calendar",
+  },
+  {
+    icon: <UserCircleIcon />,
+    name: "User Profile",
+    path: "/profile",
+  },
+  {
+    name: "Forms",
+    icon: <ListIcon />,
+    subItems: [{ name: "Form Elements", path: "/form-elements" }],
+  },
+  {
+    name: "Tables",
+    icon: <TableIcon />,
+    subItems: [{ name: "Basic Tables", path: "/basic-tables" }],
+  },
+  {
+    name: "Pages",
+    icon: <PageIcon />,
     subItems: [
-      { name: "Ecommerce", path: "/" },
+      { name: "Blank Page", path: "/blank" },
+      { name: "404 Error", path: "/error-404" },
+    ],
+  },
+];
+
+const othersItems = [
+  {
+    icon: <PieChartIcon />,
+    name: "Charts",
+    subItems: [
+      { name: "Line Chart", path: "/line-chart" },
+      { name: "Bar Chart", path: "/bar-chart" },
     ],
   },
   {
-    name: "Profile",
-    icon: <UserCircleIcon />,
-    path: "/profile",
-  }
+    icon: <BoxCubeIcon />,
+    name: "UI Elements",
+    subItems: [
+      { name: "Alerts", path: "/alerts" },
+      { name: "Avatar", path: "/avatars" },
+      { name: "Badge", path: "/badge" },
+      { name: "Buttons", path: "/buttons" },
+      { name: "Images", path: "/images" },
+      { name: "Videos", path: "/videos" },
+    ],
+  },
+  {
+    icon: <PlugInIcon />,
+    name: "Authentication",
+    subItems: [
+      { name: "Sign In", path: "/signin" },
+      { name: "Sign Up", path: "/signup" },
+    ],
+  },
 ];
 
 export default function AppSidebar() {
-  const { isExpanded, isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleSidebar, toggleMobileSidebar } = useSidebar();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
+  const [subMenuHeight, setSubMenuHeight] = useState({});
+  const subMenuRefs = useRef({});
 
-  const handleSubmenuToggle = (index) => {
-    setOpenSubmenu(openSubmenu === index ? null : index);
+  const isActive = useCallback(
+    (path) => location.pathname === path,
+    [location.pathname]
+  );
+
+  useEffect(() => {
+    let submenuMatched = false;
+    ["main", "others"].forEach((menuType) => {
+      const items = menuType === "main" ? navItems : othersItems;
+      items.forEach((nav, index) => {
+        if (nav.subItems) {
+          nav.subItems.forEach((subItem) => {
+            if (isActive(subItem.path)) {
+              setOpenSubmenu({ type: menuType, index });
+              submenuMatched = true;
+            }
+          });
+        }
+      });
+    });
+    if (!submenuMatched) {
+      setOpenSubmenu(null);
+    }
+  }, [location, isActive]);
+
+  useEffect(() => {
+    if (openSubmenu !== null) {
+      const key = `${openSubmenu.type}-${openSubmenu.index}`;
+      if (subMenuRefs.current[key]) {
+        setSubMenuHeight((prevHeights) => ({
+          ...prevHeights,
+          [key]: subMenuRefs.current[key]?.scrollHeight || 0,
+        }));
+      }
+    }
+  }, [openSubmenu]);
+
+  const handleSubmenuToggle = (index, menuType) => {
+    setOpenSubmenu((prevOpenSubmenu) => {
+      if (
+        prevOpenSubmenu &&
+        prevOpenSubmenu.type === menuType &&
+        prevOpenSubmenu.index === index
+      ) {
+        return null;
+      }
+      return { type: menuType, index };
+    });
   };
+
+  const renderMenuItems = (items, menuType) => (
+    <ul className="flex flex-col gap-4">
+      {items.map((nav, index) => (
+        <li key={nav.name}>
+          {nav.subItems ? (
+            <button
+              onClick={() => handleSubmenuToggle(index, menuType)}
+              className={`menu-item group ${
+                openSubmenu?.type === menuType && openSubmenu?.index === index
+                  ? "menu-item-active"
+                  : "menu-item-inactive"
+              } cursor-pointer ${
+                !isExpanded && !isHovered
+                  ? "lg:justify-center"
+                  : "lg:justify-start"
+              }`}
+            >
+              <span
+                className={`menu-item-icon-size  ${
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? "menu-item-icon-active"
+                    : "menu-item-icon-inactive"
+                }`}
+              >
+                {nav.icon}
+              </span>
+              {(isExpanded || isHovered || isMobileOpen) && (
+                <span className="menu-item-text">{nav.name}</span>
+              )}
+              {(isExpanded || isHovered || isMobileOpen) && (
+                <span className={`ml-auto w-5 h-5 transition-transform duration-200 ${
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? "rotate-180 text-brand-500"
+                    : ""
+                }`}>
+                  ▼
+                </span>
+              )}
+            </button>
+          ) : (
+            nav.path && (
+              <Link
+                to={nav.path}
+                className={`menu-item group ${
+                  isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
+                }`}
+              >
+                <span
+                  className={`menu-item-icon-size ${
+                    isActive(nav.path)
+                      ? "menu-item-icon-active"
+                      : "menu-item-icon-inactive"
+                  }`}
+                >
+                  {nav.icon}
+                </span>
+                {(isExpanded || isHovered || isMobileOpen) && (
+                  <span className="menu-item-text">{nav.name}</span>
+                )}
+              </Link>
+            )
+          )}
+          {nav.subItems && (isExpanded || isHovered || isMobileOpen) && (
+            <div
+              ref={(el) => {
+                subMenuRefs.current[`${menuType}-${index}`] = el;
+              }}
+              className="overflow-hidden transition-all duration-300"
+              style={{
+                height:
+                  openSubmenu?.type === menuType && openSubmenu?.index === index
+                    ? `${subMenuHeight[`${menuType}-${index}`]}px`
+                    : "0px",
+              }}
+            >
+              <ul className="mt-2 space-y-1 ml-9">
+                {nav.subItems.map((subItem) => (
+                  <li key={subItem.name}>
+                    <Link
+                      to={subItem.path}
+                      className={`menu-dropdown-item ${
+                        isActive(subItem.path)
+                          ? "menu-dropdown-item-active"
+                          : "menu-dropdown-item-inactive"
+                      }`}
+                    >
+                      {subItem.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
 
   return (
     <aside
-      className={`fixed z-40 h-full bg-white border-r border-gray-200 dark:bg-gray-900 dark:border-gray-800 transition-all duration-300
-        ${isExpanded ? "w-64" : "w-20"} ${isMobileOpen ? "block" : "hidden lg:block"}`}
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+        ${
+          isExpanded || isMobileOpen
+            ? "w-[290px]"
+            : isHovered
+            ? "w-[290px]"
+            : "w-[90px]"
+        }
+        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
+        lg:translate-x-0`}
+      onMouseEnter={() => !isExpanded && setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
-        <Link to="/">
-          {/* Logo gráfico, reemplaza src por tu logo real */}
-          <img src="/images/logo/logo.svg" alt="Logo" className="h-8 w-auto dark:hidden" />
-          <img src="/images/logo/logo-dark.svg" alt="Logo" className="h-8 w-auto hidden dark:block" />
-        </Link>
-        <button className="lg:hidden" onClick={toggleMobileSidebar}>
-          <span className="sr-only">Close Sidebar</span>
-          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <nav className="mt-4">
-        <ul className="flex flex-col gap-2">
-          {navItems.map((item, idx) => (
-            <li key={item.name}>
-              {item.subItems ? (
-                <>
-                  <button
-                    className={`flex items-center w-full px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                      openSubmenu === idx ? "bg-gray-200 dark:bg-gray-800 font-semibold" : ""
-                    }`}
-                    onClick={() => handleSubmenuToggle(idx)}
-                  >
-                    <span className="mr-2">{item.icon}</span>
-                    {isExpanded && item.name}
-                    {isExpanded && <ChevronDownIcon open={openSubmenu === idx} />}
-                  </button>
-                  {openSubmenu === idx && isExpanded && (
-                    <ul className="ml-8 mt-1 flex flex-col gap-1">
-                      {item.subItems.map((sub) => (
-                        <li key={sub.name}>
-                          <Link
-                            to={sub.path}
-                            className={`block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                              location.pathname === sub.path ? "bg-gray-200 dark:bg-gray-800 font-semibold" : ""
-                            }`}
-                            onClick={isMobileOpen ? toggleMobileSidebar : undefined}
-                          >
-                            {sub.name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </>
-              ) : (
-                <Link
-                  to={item.path}
-                  className={`flex items-center px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 ${
-                    location.pathname === item.path ? "bg-gray-200 dark:bg-gray-800 font-semibold" : ""
-                  }`}
-                  onClick={isMobileOpen ? toggleMobileSidebar : undefined}
-                >
-                  <span className="mr-2">{item.icon}</span>
-                  {isExpanded && item.name}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <button
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-200 dark:bg-gray-800 rounded"
-        onClick={toggleSidebar}
+      <div
+        className={`py-8 flex ${
+          !isExpanded && !isHovered ? "lg:justify-center" : "justify-start"
+        }`}
       >
-        {isExpanded ? "Colapsar" : "Expandir"}
-      </button>
+        <Link to="/">
+          {isExpanded || isHovered || isMobileOpen ? (
+            <>
+              <img
+                className="dark:hidden"
+                src="/images/logo/logo.svg"
+                alt="Logo"
+                width={150}
+                height={40}
+              />
+              <img
+                className="hidden dark:block"
+                src="/images/logo/logo-dark.svg"
+                alt="Logo"
+                width={150}
+                height={40}
+              />
+            </>
+          ) : (
+            <img
+              src="/images/logo/logo-icon.svg"
+              alt="Logo"
+              width={32}
+              height={32}
+            />
+          )}
+        </Link>
+      </div>
+      <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
+        <nav className="mb-6">
+          <div className="flex flex-col gap-4">
+            <div>
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Menu"
+                ) : (
+                  <HorizontaLDots className="size-6" />
+                )}
+              </h2>
+              {renderMenuItems(navItems, "main")}
+            </div>
+            <div className="">
+              <h2
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                  !isExpanded && !isHovered
+                    ? "lg:justify-center"
+                    : "justify-start"
+                }`}
+              >
+                {isExpanded || isHovered || isMobileOpen ? (
+                  "Others"
+                ) : (
+                  <HorizontaLDots />
+                )}
+              </h2>
+              {renderMenuItems(othersItems, "others")}
+            </div>
+          </div>
+        </nav>
+        {/* Aquí puedes agregar SidebarWidget si lo necesitas */}
+      </div>
     </aside>
   );
 }
