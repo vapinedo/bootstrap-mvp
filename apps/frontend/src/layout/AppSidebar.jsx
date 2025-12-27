@@ -1,10 +1,10 @@
 
-import { useSidebar } from "../context/SidebarContext";
-import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { GridIcon } from '@icons';
+import { Link, useLocation } from "react-router-dom";
+import { useSidebar } from "../context/SidebarContext";
 
 // Puedes reemplazar estos SVG por tus propios íconos o importarlos
-const DashboardIcon = () => <span className="inline-block w-5 h-5 bg-gray-400 rounded" />;
 const ProfileIcon = () => <span className="inline-block w-5 h-5 bg-gray-400 rounded" />;
 const SettingsIcon = () => <span className="inline-block w-5 h-5 bg-gray-400 rounded" />;
 const ChevronDownIcon = ({ open }) => (
@@ -14,7 +14,7 @@ const ChevronDownIcon = ({ open }) => (
 const navItems = [
   {
     name: "Dashboard",
-    icon: <DashboardIcon />,
+    icon: <GridIcon />,
     subItems: [
       { name: "Ecommerce", path: "/" },
     ],
