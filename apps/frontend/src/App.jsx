@@ -1,7 +1,5 @@
 import { AppRouter } from './AppRouter.jsx';
 
-function App() {
+export const App = () => {
   return <AppRouter />;
 }
-
-export default App;
