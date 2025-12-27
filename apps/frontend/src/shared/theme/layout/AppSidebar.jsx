@@ -1,8 +1,8 @@
 
-import { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSidebar } from "../context/SidebarContext";
-import { GridIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "../icons";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { useSidebar } from "@shared/theme/context/SidebarContext";
+import { GridIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
 
 const navItems = [
   {

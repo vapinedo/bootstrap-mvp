@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { DropdownItem } from "@theme/components/ui/dropdown/DropdownItem";
-import { Dropdown } from "@theme/components/ui/dropdown/Dropdown";
+import { DropdownItem } from "@shared/theme/components/ui/dropdown/DropdownItem";
+import { Dropdown } from "@shared/theme/components/ui/dropdown/Dropdown";
 
 export const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);

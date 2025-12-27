@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import { Backdrop } from "@theme/layout/Backdrop";
-import { AppHeader } from "@theme/layout/AppHeader";
-import { AppSidebar } from "@theme/layout/AppSidebar";
+import { Backdrop } from "@shared/theme/layout/Backdrop";
+import { AppHeader } from "@shared/theme/layout/AppHeader";
+import { AppSidebar } from "@shared/theme/layout/AppSidebar";
 import { SidebarProvider, useSidebar } from "../context/SidebarContext";
 
 function LayoutContent() {
