@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { GridIcon } from '@icons';
+import { GridIcon, UserCircleIcon } from '@icons';
 import { Link, useLocation } from "react-router-dom";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -21,14 +21,9 @@ const navItems = [
   },
   {
     name: "Profile",
-    icon: <ProfileIcon />,
+    icon: <UserCircleIcon />,
     path: "/profile",
-  },
-  {
-    name: "Settings",
-    icon: <SettingsIcon />,
-    path: "/settings",
-  },
+  }
 ];
 
 export default function AppSidebar() {
