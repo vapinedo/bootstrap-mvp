@@ -2,7 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useSidebar } from "@shared/theme/context/SidebarContext";
-import { GridIcon, ChevronDownIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
+import { GridIcon, DocsIcon, ChevronDownIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
 
 const navItems = [
   {
@@ -11,9 +11,9 @@ const navItems = [
     subItems: [{ name: "Ecommerce", path: "/" }],
   },
   {
-    icon: <CalenderIcon />,
-    name: "Calendar",
-    path: "/calendar",
+    icon: <DocsIcon />,
+    name: "Seguridad",
+    subItems: [{ name: "Usuarios", path: "/security" }],
   },
   {
     icon: <UserCircleIcon />,
