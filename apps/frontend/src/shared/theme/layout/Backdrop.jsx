@@ -1,6 +1,6 @@
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "@shared/theme/context/SidebarContext";
 
-export default function Backdrop() {
+export const Backdrop = () => {
   const { isMobileOpen, toggleMobileSidebar } = useSidebar();
   if (!isMobileOpen) return null;
   return (

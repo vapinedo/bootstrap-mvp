@@ -6,9 +6,10 @@
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
       "@icons/*": ["icons/*"],
+      "@shared/*": ["shared/*"],
       "@context/*": ["context/*"],
-      "@modules/*": ["modules/*"],
-      "@components/*": ["components/*"]
+      "@features/*": ["features/*"],
+      "@components/*": ["components/*"],
     }
   }
 }

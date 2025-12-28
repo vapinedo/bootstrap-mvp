@@ -1,5 +1,5 @@
 import { AppRouter } from '@/AppRouter.jsx';
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider } from '@shared/theme';
 
 export const App = () => {
   return (

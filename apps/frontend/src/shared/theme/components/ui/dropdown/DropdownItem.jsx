@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function DropdownItem({
+export const DropdownItem = ({
   tag = "button",
   to,
   onClick,
@@ -8,7 +8,7 @@ export default function DropdownItem({
   baseClassName = "block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900",
   className = "",
   children,
-}) {
+}) => {
   const combinedClasses = `${baseClassName} ${className}`.trim();
 
   const handleClick = (event) => {

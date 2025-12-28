@@ -1,6 +1,6 @@
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "@shared/theme/context/ThemeContext";
 
-export default function ThemeToggleButton() {
+export const ThemeToggleButton = () => {
   const { toggleTheme } = useTheme();
 
   return (
