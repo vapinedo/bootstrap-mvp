@@ -2,7 +2,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useSidebar } from "@shared/theme/context/SidebarContext";
-import { GridIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
+import { GridIcon, ChevronDownIcon, CalenderIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
 
 const navItems = [
   {
@@ -158,13 +158,14 @@ export const AppSidebar = () => {
                 <span className="menu-item-text">{nav.name}</span>
               )}
               {(isExpanded || isHovered || isMobileOpen) && (
-                <span className={`ml-auto w-5 h-5 transition-transform duration-200 ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "rotate-180 text-brand-500"
-                    : ""
-                }`}>
-                  ▼
-                </span>
+                <ChevronDownIcon
+                  className={`ml-auto w-5 h-5 transition-transform duration-200 ${
+                    openSubmenu?.type === menuType &&
+                    openSubmenu?.index === index
+                      ? "rotate-180 text-brand-500"
+                      : ""
+                  }`}
+                />
               )}
             </button>
           ) : (
