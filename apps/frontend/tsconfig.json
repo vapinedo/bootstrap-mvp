@@ -8,7 +8,7 @@
       "@icons/*": ["icons/*"],
       "@shared/*": ["shared/*"],
       "@context/*": ["context/*"],
-      "@features/*": ["features/*"],
+      "@modules/*": ["modules/*"],
       "@components/*": ["components/*"],
     }
   }
