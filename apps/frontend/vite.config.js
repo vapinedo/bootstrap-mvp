@@ -23,7 +23,7 @@ export default defineConfig({
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@shared': path.resolve(__dirname, 'src/shared'),
       '@context': path.resolve(__dirname, 'src/context'),
-      '@features': path.resolve(__dirname, 'src/features'),
+      '@modules': path.resolve(__dirname, 'src/modules'),
       '@components': path.resolve(__dirname, 'src/components'),
     },
   },
