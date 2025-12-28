@@ -1,4 +1,4 @@
-import { AppRouter } from '@/AppRouter';
+import { AppRouter } from '@root/AppRouter';
 import { ThemeProvider } from '@shared/theme';
 
 export const App = () => {

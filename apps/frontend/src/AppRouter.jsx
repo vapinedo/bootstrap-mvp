@@ -1,6 +1,6 @@
 import { NotFound } from '@shared/pages';
-import { Routes, Route } from 'react-router-dom';
 import { AppLayout } from '@shared/theme/layout';
+import { Routes, Route } from 'react-router-dom';
 import { DashboardRouter } from '@features/dashboard';
 
 export const AppRouter = () => {
