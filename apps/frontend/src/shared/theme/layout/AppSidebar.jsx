@@ -13,7 +13,7 @@ const navItems = [
   {
     icon: <DocsIcon />,
     name: "Seguridad",
-    subItems: [{ name: "Usuarios", path: "/security" }],
+    subItems: [{ name: "Usuarios", path: "/user" }],
   },
   {
     icon: <UserCircleIcon />,

@@ -1,8 +1,8 @@
 
 import { Outlet } from 'react-router-dom';
-import { UserAdminPage } from '@modules/security/pages';
+import { UserAdminPage } from '@modules/user/pages';
 
-export const SecurityRouter = () => {
+export const UserRouter = () => {
   return (
     <>
       <UserAdminPage />
