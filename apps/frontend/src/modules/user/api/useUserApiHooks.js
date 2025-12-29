@@ -1,47 +1,25 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import {
-  fetchUsers,
-  createUser,
-  deleteUser,
-  addUserRole,
-  fetchUserById,
-  fetchUserRoles,
-  removeUserRole,
-} from '@modules/user/api/users.api';
+
+import { useRepositoryList, useRepositoryDetail, useRepositoryCreate, useRepositoryDelete } from '@core/useRepository';
+import { userRepository } from '@core/userRepository';
+
 
 export function useUsersQuery() {
-  return useQuery({
-    queryKey: ['users'],
-    queryFn: fetchUsers,
-  });
+  return useRepositoryList(userRepository, 'users');
 }
+
 
 export function useUserQuery(id) {
-  return useQuery({
-    queryKey: ['users', id],
-    queryFn: () => fetchUserById(id),
-    enabled: !!id,
-  });
+  return useRepositoryDetail(userRepository, 'users', id);
 }
+
 
 export function useCreateUserMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['users']);
-    },
-  });
+  return useRepositoryCreate(userRepository, 'users');
 }
 
+
 export function useDeleteUserMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries(['users']);
-    },
-  });
+  return useRepositoryDelete(userRepository, 'users');
 }
 
 export function useUserRolesQuery(id) {
