@@ -1,78 +1,13 @@
 
 import { Link, useLocation } from "react-router-dom";
+import useSidebarStore from "@shared/theme/store/sidebarStore";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useSidebar } from "@shared/theme/context/SidebarContext";
-import { GridIcon, DocsIcon, ChevronDownIcon, UserCircleIcon, ListIcon, TableIcon, PageIcon, PieChartIcon, BoxCubeIcon, PlugInIcon, HorizontaLDots } from "@shared/theme/icons";
+import { ChevronDownIcon, HorizontaLDots } from "@shared/theme/icons";
+import { navItems, othersItems } from '@shared/theme/components/sidebar/SidebarMenuItems';
 
-const navItems = [
-  {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    subItems: [{ name: "Ecommerce", path: "/" }],
-  },
-  {
-    icon: <DocsIcon />,
-    name: "Seguridad",
-    subItems: [{ name: "Usuarios", path: "/user" }],
-  },
-  {
-    icon: <UserCircleIcon />,
-    name: "User Profile",
-    path: "/profile",
-  },
-  {
-    name: "Forms",
-    icon: <ListIcon />,
-    subItems: [{ name: "Form Elements", path: "/form-elements" }],
-  },
-  {
-    name: "Tables",
-    icon: <TableIcon />,
-    subItems: [{ name: "Basic Tables", path: "/basic-tables" }],
-  },
-  {
-    name: "Pages",
-    icon: <PageIcon />,
-    subItems: [
-      { name: "Blank Page", path: "/blank" },
-      { name: "404 Error", path: "/error-404" },
-    ],
-  },
-];
-
-const othersItems = [
-  {
-    icon: <PieChartIcon />,
-    name: "Charts",
-    subItems: [
-      { name: "Line Chart", path: "/line-chart" },
-      { name: "Bar Chart", path: "/bar-chart" },
-    ],
-  },
-  {
-    icon: <BoxCubeIcon />,
-    name: "UI Elements",
-    subItems: [
-      { name: "Alerts", path: "/alerts" },
-      { name: "Avatar", path: "/avatars" },
-      { name: "Badge", path: "/badge" },
-      { name: "Buttons", path: "/buttons" },
-      { name: "Images", path: "/images" },
-      { name: "Videos", path: "/videos" },
-    ],
-  },
-  {
-    icon: <PlugInIcon />,
-    name: "Authentication",
-    subItems: [
-      { name: "Sign In", path: "/signin" },
-      { name: "Sign Up", path: "/signup" },
-    ],
-  },
-];
 
 export const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleSidebar, toggleMobileSidebar } = useSidebarStore();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
