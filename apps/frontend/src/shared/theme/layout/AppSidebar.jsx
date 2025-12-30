@@ -5,9 +5,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { ChevronDownIcon, HorizontaLDots } from "@shared/theme/icons";
 import { navItems, othersItems } from '@shared/theme/components/sidebar/SidebarMenuItems';
 
-
 export const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered, toggleSidebar, toggleMobileSidebar } = useSidebarStore();
+  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebarStore();
   const location = useLocation();
   const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
