@@ -21,7 +21,7 @@ const navItems = [
     path: "/profile",
   },
   {
-    name: "Forms",
+    name: "Formularios",
     icon: <ListIcon />,
     subItems: [{ name: "Form Elements", path: "/form-elements" }],
   },
