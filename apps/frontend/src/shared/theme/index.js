@@ -1,6 +1,5 @@
 // Contexts
 export { ThemeProvider, useTheme } from '@shared/theme/context/ThemeContext';
-export { SidebarProvider, useSidebar } from '@shared/theme/context/SidebarContext';
 
 // Layout
 export { Backdrop } from '@shared/theme/layout/Backdrop';
