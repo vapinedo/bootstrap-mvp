@@ -9,11 +9,13 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       refetchOnWindowFocus: false,
+      staleTime: 1000 * 60 * 5, // 5 minutes,
+      cacheTime: 1000 * 60 * 10, // 10 minutes,
     },
   },
 });
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
