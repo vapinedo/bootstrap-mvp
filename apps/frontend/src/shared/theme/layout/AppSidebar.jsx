@@ -1,9 +1,10 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDownIcon } from "@shared/theme/icons";
+import { useRef, useCallback, useState } from "react";
 import useSidebarStore from "@shared/theme/store/sidebarStore";
-import { useRef, useEffect, useCallback, useState } from "react";
 import useSyncSidebarSubmenu from "@shared/theme/hooks/useSyncSidebarSubmenu";
+import { useSidebarSubmenuHeight } from "@shared/theme/hooks/useSidebarSubmenuHeight";
 import { navItems, othersItems } from '@shared/theme/components/sidebar/SidebarMenuItems';
 
 export const AppSidebar = () => {
@@ -13,22 +14,12 @@ export const AppSidebar = () => {
   const subMenuRefs = useRef({});
 
   useSyncSidebarSubmenu();
+  useSidebarSubmenuHeight(openSubmenu, subMenuRefs, setSubMenuHeight);
+
   const isActive = useCallback(
     (path) => location.pathname === path,
     [location.pathname]
   );
-
-  useEffect(() => {
-    if (openSubmenu !== null) {
-      const key = `${openSubmenu.type}-${openSubmenu.index}`;
-      if (subMenuRefs.current[key]) {
-        setSubMenuHeight((prevHeights) => ({
-          ...prevHeights,
-          [key]: subMenuRefs.current[key]?.scrollHeight || 0,
-        }));
-      }
-    }
-  }, [openSubmenu]);
 
   const handleSubmenuToggle = (index, menuType) => {
     toggleSubmenu({ type: menuType, index });
