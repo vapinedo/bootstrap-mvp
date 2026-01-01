@@ -7,7 +7,7 @@ import useSyncSidebarSubmenu from "@shared/theme/hooks/useSyncSidebarSubmenu";
 import { navItems, othersItems } from '@shared/theme/components/sidebar/SidebarMenuItems';
 
 export const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, openSubmenu, toggleSubmenu } = useSidebarStore();
+  const { isExpanded, isMobileOpen, isHovered, openSubmenu, toggleSubmenu, setIsHovered } = useSidebarStore();
   const location = useLocation();
   const [subMenuHeight, setSubMenuHeight] = useState({});
   const subMenuRefs = useRef({});
