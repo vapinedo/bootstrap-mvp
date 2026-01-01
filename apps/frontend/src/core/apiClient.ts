@@ -1,21 +1,34 @@
-const apiUrl = import.meta.env.VITE_API_URL;
+import { buildApiUrl } from '@shared/utils/url';
+import { appendQueryParams } from '@shared/utils/queryString';
+import { buildFetchOptions } from '@shared/utils/fetchOptions';
 
-export async function apiRequest(endpoint, { method = 'GET', body, headers = {}, params } = {}) {
-  let url = `${apiUrl}${endpoint}`;
-  if (params && typeof params === 'object') {
-    const query = new URLSearchParams(params).toString();
-    url += `?${query}`;
-  }
-  const response = await fetch(url, {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-  });
+export interface ApiRequestOptions {
+  method?: string;
+  body?: any;
+  params?: Record<string, any>;
+  headers?: Record<string, string>;
+}
+
+export interface ApiRequestProps {
+    endpoint: string;
+    options?: ApiRequestOptions;
+}
+
+export async function apiRequest<T = any>(props: ApiRequestProps): Promise<T> {
+
+  const { endpoint, options = {} } = props;
+  const { method = 'GET', body, params, headers = {} } = options;
+  let finalUrl = appendQueryParams(buildApiUrl(endpoint), params);
+
+  const fetchOptions: RequestInit = buildFetchOptions({ method, headers, body });
+
+  const response = await fetch(finalUrl, fetchOptions);
   if (!response.ok) {
-    throw new Error(`Error en la petición: ${response.status}`);
+    const error = await response.text();
+    throw new Error(error || 'Error en la petición');
   }
+  
+  // Si no hay contenido (ej: DELETE), retorna undefined
+  if (response.status === 204) return undefined as T;
   return response.json();
 }
