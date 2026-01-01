@@ -1,3 +1,7 @@
+import { buildApiUrl } from '@shared/utils/url';
+import { appendQueryParams } from '@shared/utils/queryString';
+import { buildFetchOptions } from '@shared/utils/fetchOptions';
+
 export interface ApiRequestOptions {
   method?: string;
   body?: any;
@@ -5,34 +9,18 @@ export interface ApiRequestOptions {
   headers?: Record<string, string>;
 }
 
-// Lee la URL base del API desde variable de entorno
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+export interface ApiRequestProps {
+    endpoint: string;
+    options?: ApiRequestOptions;
+}
 
-export async function apiRequest<T = any>(
-  endpoint: string,
-  options: ApiRequestOptions = {}
-): Promise<T> {
-  // Si el endpoint ya es absoluto, no anteponer la base
-  let finalUrl = endpoint.startsWith('http') ? endpoint : API_BASE_URL.replace(/\/$/, '') + '/' + endpoint.replace(/^\//, '');
+export async function apiRequest<T = any>(props: ApiRequestProps): Promise<T> {
+
+  const { endpoint, options = {} } = props;
   const { method = 'GET', body, params, headers = {} } = options;
+  let finalUrl = appendQueryParams(buildApiUrl(endpoint), params);
 
-  // Agregar parámetros de consulta si existen
-  if (params && Object.keys(params).length > 0) {
-    const query = new URLSearchParams(params).toString();
-    finalUrl += (finalUrl.includes('?') ? '&' : '?') + query;
-  }
-
-  const fetchOptions: RequestInit = {
-    method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...headers,
-    },
-  };
-
-  if (body) {
-    fetchOptions.body = JSON.stringify(body);
-  }
+  const fetchOptions: RequestInit = buildFetchOptions({ method, headers, body });
 
   const response = await fetch(finalUrl, fetchOptions);
   if (!response.ok) {
