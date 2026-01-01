@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import { Backdrop } from "@shared/theme/layout/Backdrop";
 import { AppHeader } from "@shared/theme/layout/AppHeader";
 import { AppSidebar } from "@shared/theme/layout/AppSidebar";
-import { SidebarProvider, useSidebar } from "../context/SidebarContext";
+import useSidebarStore from "@shared/theme/store/sidebarStore";
 
-function LayoutContent() {
-  const { isExpanded, isHovered, isMobileOpen } = useSidebar();
+export const AppLayout = () => {
+  const { isExpanded, isHovered, isMobileOpen } = useSidebarStore();
 
   return (
     <div className="min-h-screen xl:flex">
@@ -24,13 +24,5 @@ function LayoutContent() {
         </div>
       </div>
     </div>
-  );
-}
-
-export const AppLayout = () => {
-  return (
-    <SidebarProvider>
-      <LayoutContent />
-    </SidebarProvider>
   );
 }

@@ -1,41 +1,22 @@
 
 import { Link, useLocation } from "react-router-dom";
+import { ChevronDownIcon } from "@shared/theme/icons";
 import useSidebarStore from "@shared/theme/store/sidebarStore";
-import { useState, useRef, useEffect, useCallback } from "react";
-import { ChevronDownIcon, HorizontaLDots } from "@shared/theme/icons";
+import { useRef, useEffect, useCallback, useState } from "react";
+import useSyncSidebarSubmenu from "@shared/theme/hooks/useSyncSidebarSubmenu";
 import { navItems, othersItems } from '@shared/theme/components/sidebar/SidebarMenuItems';
 
 export const AppSidebar = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebarStore();
+  const { isExpanded, isMobileOpen, isHovered, openSubmenu, toggleSubmenu } = useSidebarStore();
   const location = useLocation();
-  const [openSubmenu, setOpenSubmenu] = useState(null);
   const [subMenuHeight, setSubMenuHeight] = useState({});
   const subMenuRefs = useRef({});
 
+  useSyncSidebarSubmenu();
   const isActive = useCallback(
     (path) => location.pathname === path,
     [location.pathname]
   );
-
-  useEffect(() => {
-    let submenuMatched = false;
-    ["main", "others"].forEach((menuType) => {
-      const items = menuType === "main" ? navItems : othersItems;
-      items.forEach((nav, index) => {
-        if (nav.subItems) {
-          nav.subItems.forEach((subItem) => {
-            if (isActive(subItem.path)) {
-              setOpenSubmenu({ type: menuType, index });
-              submenuMatched = true;
-            }
-          });
-        }
-      });
-    });
-    if (!submenuMatched) {
-      setOpenSubmenu(null);
-    }
-  }, [location, isActive]);
 
   useEffect(() => {
     if (openSubmenu !== null) {
@@ -50,16 +31,7 @@ export const AppSidebar = () => {
   }, [openSubmenu]);
 
   const handleSubmenuToggle = (index, menuType) => {
-    setOpenSubmenu((prevOpenSubmenu) => {
-      if (
-        prevOpenSubmenu &&
-        prevOpenSubmenu.type === menuType &&
-        prevOpenSubmenu.index === index
-      ) {
-        return null;
-      }
-      return { type: menuType, index };
-    });
+    toggleSubmenu({ type: menuType, index });
   };
 
   const renderMenuItems = (items, menuType) => (
