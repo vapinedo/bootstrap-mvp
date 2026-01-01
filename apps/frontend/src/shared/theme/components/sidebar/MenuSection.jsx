@@ -1,5 +1,5 @@
-import { MenuItem } from "./MenuItem";
 import { HorizontaLDots } from "@shared/theme/icons";
+import { MenuItem } from "@shared/theme/components/sidebar/MenuItem";
 
 export function MenuSection({ title, items, menuType, ...props }) {
   return (

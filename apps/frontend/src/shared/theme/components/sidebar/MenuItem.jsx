@@ -3,6 +3,7 @@ import { ChevronDownIcon } from "@shared/theme/icons";
 
 export function MenuItem({ nav, index, menuType, openSubmenu, handleSubmenuToggle, showFullSidebar, isExpanded, isHovered, isMobileOpen, isActive, subMenuRefs, subMenuHeight }) {
   const isOpen = openSubmenu?.type === menuType && openSubmenu?.index === index;
+  
   return (
     <li key={nav.name}>
       {nav.subItems ? (
