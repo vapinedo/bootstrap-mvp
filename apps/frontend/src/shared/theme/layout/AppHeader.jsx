@@ -1,14 +1,14 @@
 
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { useSidebar } from "@shared/theme/context/SidebarContext";
+import useSidebarStore from "@shared/theme/store/sidebarStore";
 import { UserDropdown } from "@shared/theme/components/header/UserDropdown";
 import { ThemeToggleButton } from "@shared/theme/components/common/ThemeToggleButton";
 import { NotificationDropdown } from "@shared/theme/components/header/NotificationDropdown";
 
 export const AppHeader = () => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebar();
+  const { isMobileOpen, toggleSidebar, toggleMobileSidebar } = useSidebarStore();
 
   const handleToggle = () => {
     if (window.innerWidth >= 1024) {
